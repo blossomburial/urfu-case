@@ -5,7 +5,7 @@
 {% block main %} 
     {% if jobs %}
         {% for el in jobs %}
-            <a href="{% url 'jobs-detail' el.id %}"> {{ el.title }}</a>
+            <a href="{% url 'job-detail' el.id %}"> {{ el.title }}</a>
             <p> {{ el.date }}</p>
         {% endfor %}
     {% else %}

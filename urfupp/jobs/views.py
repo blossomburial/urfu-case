@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Jobs
 from .forms import JobsForm
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView, DeleteView
 
 def jobs_home(request):
     jobs = Jobs.objects.order_by('-date')
@@ -9,8 +9,19 @@ def jobs_home(request):
 
 class JobsDetailView(DetailView):
     model = Jobs
-    temp_name = 'jobs/job_detail.html'
+    template_name = 'jobs/job_detail.html'
     context_object_name = 'job'
+
+class JobsUpdateView(UpdateView):
+    model = Jobs
+    template_name = 'jobs/create.html'
+
+    form_class = JobsForm
+
+class JobsDeleteView(DeleteView):
+    model = Jobs
+    success_url = '/jobs'
+    template_name = 'jobs/job_delete.html'
 
 def create(request):
     error = ''

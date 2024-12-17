@@ -11,6 +11,9 @@ class Jobs(models.Model):
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self):
+        return f'/jobs/{self.id}'
+    
     class Meta:
         verbose_name = 'вакансия'
         verbose_name_plural = 'вакансии'

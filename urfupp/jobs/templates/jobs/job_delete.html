@@ -1,0 +1,11 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} удаление вакансии {% endblock %}
+
+{% block main %} 
+    <h1>удаление вакансии</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">удалить</button>
+    </form>
+{% endblock %}
