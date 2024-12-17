@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Jobs(models.Model):
     title = models.CharField('название', max_length=50)
     desc = models.TextField('описание')

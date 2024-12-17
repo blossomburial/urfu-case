@@ -1,3 +1,22 @@
 body {
     background-color: gray;
 }
+
+a:link, a:visited {
+    color: inherit; /* Цвет текста ссылки */
+    text-decoration: none; /* Убирает подчёркивание под текстом */
+  }
+a:hover, a:active {
+color: inherit; /* Цвет текста ссылки при наведении и нажатии */
+}
+ 
+a:focus {
+outline: none; /* Убирает обводку вокруг ссылки */
+}
+
+a {
+text-decoration: none;
+}
+
+
+  

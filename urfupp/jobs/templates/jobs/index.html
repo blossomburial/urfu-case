@@ -1,7 +1,14 @@
 {% extends 'main/layout.html' %}
 
-{% block title %} главная страница {% endblock %}
+{% block title %} вакансии {% endblock %}
 
 {% block main %} 
-    вакансии
+    {% if jobs %}
+        {% for el in jobs %}
+            <a href="{% url 'jobs-detail' el.id %}"> {{ el.title }}</a>
+            <p> {{ el.date }}</p>
+        {% endfor %}
+    {% else %}
+        <p>вакансий пока нет</p>
+    {% endif %}
 {% endblock %}
