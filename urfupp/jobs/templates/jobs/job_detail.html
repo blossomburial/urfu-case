@@ -9,9 +9,18 @@
     <p> заработная плата: {{ job.salary }}</p>
     <p> дата создания: {{ job.date }}</p>
     {% if user.is_authenticated and not perms.jobs.add_jobs %}
-        <a> подать заявку </a>
+        <a href="{% url 'job-apply' job.id %}"> подать заявку </a>
     {% endif %}
     {% if user.is_authenticated and perms.jobs.add_jobs %}
+        {% if applications %}
+            <p>заявки на вакансию: </p>
+            {% for app in applications %}
+                <li>
+                    {{ app.user.username }} — {{ app.date_applied|date:"d.m.Y H:i" }}
+                    <p>Резюме: <a href="{{ app.resume.url }}" target="_blank">Скачать</a></p>
+                </li>
+            {% endfor %}
+        {% endif %}
         <a href="{% url 'job-update' job.id %}"> редактировать вакансию </a>
         <a href="{% url 'job-delete' job.id %}"> удалить вакансию </a>
     {% endif %}

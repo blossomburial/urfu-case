@@ -10,14 +10,24 @@
     {% else %}
       <p>Фото профиля не установлено.</p>
     {% endif %}
-    
+
     {%if perms.jobs.add_jobs %}
         <p><strong>ваши вакансии:</strong></p>
+        {% for job in jobs %}
+            <li> <a href="{% url 'job-detail' job.id %}"> {{ job.title }} </a> - {{ job.date }}</li>
+        {% empty %}
+            <p>Вы еще не добавили вакансий.</p>
+        {% endfor %}
     {% else %}
-        <p><strong>ваши заявки:</strong></p>
-        <p><strong>статус:</strong> {{ profile.get_status_display }}</p>
+        <p><strong>ваши заявки:</strong></p>   
+        <li>
+            {% for app in applications %}
+                <a href="{% url 'job-detail' app.job.id %}"> {{ app.job }} </a> — <a href="{% url 'job-apply-delete' app.id %}"> удалить заявку </a> - статус: отправлена
+            {% endfor %}
+        </li> 
+        <p><strong>статус:</strong> {{ profile.get_status_display }}</p> 
     {% endif %}
-    
+
     <p><strong>о себе:</strong> {{ profile.bio }}</p>
     <p><strong>дата рождения:</strong> {{ profile.birth_date }}</p>
     <a href="{% url 'edit_profile' %}"> редактировать профиль </a>

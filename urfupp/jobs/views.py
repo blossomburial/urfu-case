@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import permission_required, login_required
-from .forms import JobSearchForm, UserProfileForm, JobsForm
-from .models import UserProfile, Jobs
+from .forms import JobSearchForm, UserProfileForm, JobsForm, ApplicationForm
+from .models import UserProfile, Jobs, Application
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseForbidden
 
 
 def jobs_home(request):
@@ -14,6 +15,11 @@ class JobsDetailView(DetailView):
     model = Jobs
     template_name = 'jobs/job_detail.html'
     context_object_name = 'job'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['applications'] = self.object.applications.all()
+        return context
 
 class JobsUpdateView(UpdateView):
     model = Jobs
@@ -33,19 +39,19 @@ def create(request):
     if request.method == 'POST':
         form = JobsForm(request.POST)
         if form.is_valid():
-            form.save()
-
+            job = form.save(commit=False) 
+            job.author = request.user
+            job.save() 
             return redirect('jobs-home')
         else:
             error = 'неверно заполнена форма'
-
-    form = JobsForm()
+    else:
+        form = JobsForm()
 
     data = {
         'form': form,
         'error': error
     }
-
     return render(request, 'jobs/create.html', data)
 
 def search_jobs(request):
@@ -69,11 +75,10 @@ def search_jobs(request):
 
 @login_required
 def profile(request):
-    user = request.user
-    permissions = user.get_all_permissions()
-    print(permissions)
+    jobs = Jobs.objects.filter(author=request.user)
+    applications = Application.objects.filter(user=request.user)
     profile = get_object_or_404(UserProfile, user=request.user)
-    return render(request, 'jobs/profile.html', {'profile': profile})
+    return render(request, 'jobs/profile.html', {'profile': profile, 'jobs': jobs, 'applications': applications})
 
 @login_required
 def edit_profile(request):
@@ -88,3 +93,37 @@ def edit_profile(request):
         form = UserProfileForm(instance=profile)
     
     return render(request, 'jobs/edit_profile.html', {'form': form})
+
+@login_required
+def apply_for_job(request, pk):
+    job = get_object_or_404(Jobs, pk=pk) 
+
+    if Application.objects.filter(user=request.user, job=job).exists():
+        
+        return redirect('job-detail', pk=job.pk) 
+
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST,  request.FILES)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.user = request.user 
+            application.job = job  
+            application.save()  
+            return redirect('job-detail', pk=job.pk) 
+
+    else:
+        form = ApplicationForm(initial={'job': job})
+
+    return render(request, 'jobs/job_apply.html', {'form': form, 'job': job})
+
+
+@login_required
+def delete_application(request, pk):
+    application = get_object_or_404(Application, pk=pk)
+
+    if application.user != request.user:
+        return HttpResponseForbidden("Вы не можете удалить эту заявку.")
+
+    application.delete()
+
+    return redirect('profile')

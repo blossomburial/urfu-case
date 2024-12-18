@@ -20,6 +20,7 @@ class Jobs(models.Model):
     )
     salary = models.CharField('заработная плата', max_length=20)
     date = models.DateField('дата публикации', auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='автор')
 
     def __str__(self):
         return self.title
@@ -51,3 +52,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Application(models.Model):
+    job = models.ForeignKey(Jobs, on_delete=models.CASCADE, related_name='applications') 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications') 
+    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
+    date_applied = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"заявка от {self.user.username} на вакансию {self.job.title}"

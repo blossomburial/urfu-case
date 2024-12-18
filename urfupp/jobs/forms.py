@@ -1,7 +1,7 @@
 from .models import Jobs
 from django import forms
 from django.forms import ModelForm, TextInput, Select
-from .models import UserProfile
+from .models import UserProfile, Application
 
 class JobsForm(ModelForm):
     class Meta:
@@ -39,3 +39,8 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['bio', 'birth_date', 'profile_picture', 'status']
+
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model = Application
+        fields = ['resume'] 
