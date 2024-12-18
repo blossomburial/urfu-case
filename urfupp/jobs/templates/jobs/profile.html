@@ -10,9 +10,16 @@
     {% else %}
       <p>Фото профиля не установлено.</p>
     {% endif %}
-    <p><strong>статус:</strong> {{ profile.get_status_display }}</p>
-    <p><strong>О себе:</strong> {{ profile.bio }}</p>
-    <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
+    
+    {%if perms.jobs.add_jobs %}
+        <p><strong>ваши вакансии:</strong></p>
+    {% else %}
+        <p><strong>ваши заявки:</strong></p>
+        <p><strong>статус:</strong> {{ profile.get_status_display }}</p>
+    {% endif %}
+    
+    <p><strong>о себе:</strong> {{ profile.bio }}</p>
+    <p><strong>дата рождения:</strong> {{ profile.birth_date }}</p>
     <a href="{% url 'edit_profile' %}"> редактировать профиль </a>
   </div>
 {% endblock %}

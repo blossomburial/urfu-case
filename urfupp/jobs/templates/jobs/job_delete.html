@@ -6,6 +6,7 @@
     <h1>удаление вакансии</h1>
     <form method="post">
         {% csrf_token %}
+        {{ form }}
         <button type="submit">удалить</button>
     </form>
 {% endblock %}

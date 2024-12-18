@@ -4,9 +4,15 @@
 
 {% block main %} 
     <h1> {{ job.title }}</h1>
-    <p> {{ job.desc }}</p>
-    <p> {{ job.date }}</p>
-    {% if user.is_authenticated %}
+    <p> описание: {{ job.desc }}</p>
+    <p> тип работы: {{ job.get_type_of_job_display }}</p>
+    <p> заработная плата: {{ job.salary }}</p>
+    <p> дата создания: {{ job.date }}</p>
+    {% if user.is_authenticated and not perms.jobs.add_jobs %}
         <a> подать заявку </a>
+    {% endif %}
+    {% if user.is_authenticated and perms.jobs.add_jobs %}
+        <a href="{% url 'job-update' job.id %}"> редактировать вакансию </a>
+        <a href="{% url 'job-delete' job.id %}"> удалить вакансию </a>
     {% endif %}
 {% endblock %}

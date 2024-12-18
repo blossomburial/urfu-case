@@ -32,7 +32,7 @@ def login_user(request):
             return redirect('main')
         else: 
             messages.success(request,'error')
-            return redirect('login')
+            return redirect('loginuser')
     else:
         return render(request, 'authentication/login.html')
     

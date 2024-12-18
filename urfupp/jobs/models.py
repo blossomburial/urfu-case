@@ -18,6 +18,7 @@ class Jobs(models.Model):
         choices=type_of_jobs,
         default='full_time'
     )
+    salary = models.CharField('заработная плата', max_length=20)
     date = models.DateField('дата публикации', auto_now=True)
 
     def __str__(self):

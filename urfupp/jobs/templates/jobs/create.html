@@ -6,11 +6,7 @@
     <h1>форма создания вакансии</h1>
     <form method="post">
         {% csrf_token %}
-
-        {{ form.title }} <br>
-        {{ form.desc }} <br>
-        {{ form.type_of_job }} <br>
-        <span> {{ error }}</span>
+        {{ form }}
         <button type="submit">отправить</button>
     </form>
 {% endblock %}

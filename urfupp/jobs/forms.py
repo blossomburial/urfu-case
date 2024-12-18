@@ -1,12 +1,12 @@
 from .models import Jobs
 from django import forms
-from django.forms import ModelForm, TextInput
+from django.forms import ModelForm, TextInput, Select
 from .models import UserProfile
 
 class JobsForm(ModelForm):
     class Meta:
         model = Jobs
-        fields = ['title', 'desc', 'type_of_job']
+        fields = ['title', 'desc', 'type_of_job', 'salary']
 
         widgets = {
             "title": TextInput(attrs={
@@ -17,9 +17,13 @@ class JobsForm(ModelForm):
                 'class': '',
                 'placeholder': 'описание вакансии' 
             }),
-            "type_of_job": TextInput(attrs={
+            "type_of_job": Select(attrs={
                 'class': '',
                 'placeholder': 'тип вакансии' 
+            }),
+            "salary": TextInput(attrs={
+                'class': '',
+                'placeholder': 'заработная плата' 
             }),
         }
 

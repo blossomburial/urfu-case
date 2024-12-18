@@ -26,6 +26,8 @@ class JobsDeleteView(DeleteView):
     success_url = '/jobs'
     template_name = 'jobs/job_delete.html'
 
+@login_required
+@permission_required('jobs.add_jobs', raise_exception=True)
 def create(request):
     error = ''
     if request.method == 'POST':
@@ -63,11 +65,13 @@ def search_jobs(request):
 
     return render(request, 'jobs/search.html', {'form': form, 'jobs': jobs})
 
-def add_job(request):
-    pass
+
 
 @login_required
 def profile(request):
+    user = request.user
+    permissions = user.get_all_permissions()
+    print(permissions)
     profile = get_object_or_404(UserProfile, user=request.user)
     return render(request, 'jobs/profile.html', {'profile': profile})
 
