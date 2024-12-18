@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Jobs
-from .forms import JobsForm
 from django.views.generic import DetailView, UpdateView, DeleteView
-from .forms import JobSearchForm
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
+from .forms import JobSearchForm, UserProfileForm, JobsForm
+from .models import UserProfile, Jobs
+from django.shortcuts import get_object_or_404
 
 
 def jobs_home(request):
@@ -66,5 +66,21 @@ def search_jobs(request):
 def add_job(request):
     pass
 
+@login_required
 def profile(request):
-    pass
+    profile = get_object_or_404(UserProfile, user=request.user)
+    return render(request, 'jobs/profile.html', {'profile': profile})
+
+@login_required
+def edit_profile(request):
+    profile = UserProfile.objects.get(user=request.user)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile') 
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    return render(request, 'jobs/edit_profile.html', {'form': form})

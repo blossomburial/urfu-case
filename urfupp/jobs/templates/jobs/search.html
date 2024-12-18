@@ -3,14 +3,14 @@
 {% block title %}  {% endblock %}
 
 {% block main %} 
-    <h1>Поиск</h1>
-    <form method="get" action="{% url 'search' %}">
+    <h1>поиск</h1>
+    <form method="get">
         {{ form.as_p }}
         <button type="submit">Искать</button>
     </form>
 
     {% if jobs is not None %}
-        <h2>Результаты:</h2>
+        <h2>результаты:</h2>
         {% if jobs %}
             {% for job in jobs %}
                 <li>
@@ -19,7 +19,7 @@
                 </li>
             {% endfor %}
         {% else %}
-            <p>Ничего не найдено.</p>
+            <p>ничего не найдено.</p>
         {% endif %}
     {% endif %}
 {% endblock %}

@@ -13,6 +13,7 @@
         <a href="{% url 'search' %}"> поиск </a> 
         {% if user.is_authenticated %}
             <a href="{% url 'logoutuser' %}"> выйти </a> 
+            <a href="{% url 'profile' %}"> профиль </a>
         {% else %}
             <a href="{% url 'registeruser' %}"> зарегистрироваться </a> 
             <a href="{% url 'loginuser' %}"> войти </a> 

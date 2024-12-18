@@ -1,6 +1,7 @@
-from .models import Jobs, Category
+from .models import Jobs
 from django import forms
 from django.forms import ModelForm, TextInput
+from .models import UserProfile
 
 class JobsForm(ModelForm):
     class Meta:
@@ -23,9 +24,14 @@ class JobsForm(ModelForm):
         }
 
 class JobSearchForm(forms.Form):
-    query = forms.CharField(max_length=100, required=False, label="Ключевые слова")
+    query = forms.CharField(max_length=100, required=False, label="ключевые слова")
     type_of_job = forms.ChoiceField(
-        choices=[('', 'Все категории')] + list(Jobs.TYPE_OF_JOB_CHOICES), 
+        choices=[('', 'все категории')] + list(Jobs.type_of_jobs), 
         required=False,
-        label="Категория"
+        label="категория"
     )
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'birth_date', 'profile_picture', 'status']

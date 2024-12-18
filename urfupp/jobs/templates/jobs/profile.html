@@ -1,0 +1,18 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} профиль {% endblock %}
+
+{% block main %}
+  <div>
+    <h2>{{ profile.user.username }}</h2>
+    {% if profile.profile_picture %}
+      <img src="{{ profile.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+      <p>Фото профиля не установлено.</p>
+    {% endif %}
+    <p><strong>статус:</strong> {{ profile.get_status_display }}</p>
+    <p><strong>О себе:</strong> {{ profile.bio }}</p>
+    <p><strong>Дата рождения:</strong> {{ profile.birth_date }}</p>
+    <a href="{% url 'edit_profile' %}"> редактировать профиль </a>
+  </div>
+{% endblock %}
