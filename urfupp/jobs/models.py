@@ -57,6 +57,7 @@ class Application(models.Model):
     job = models.ForeignKey(Jobs, on_delete=models.CASCADE, related_name='applications') 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications') 
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
+    cover_letter = models.TextField('сопроводительно письмо', default='')
     date_applied = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

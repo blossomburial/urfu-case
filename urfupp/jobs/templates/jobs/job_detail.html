@@ -17,7 +17,8 @@
             {% for app in applications %}
                 <li>
                     {{ app.user.username }} — {{ app.date_applied|date:"d.m.Y H:i" }}
-                    <p>Резюме: <a href="{{ app.resume.url }}" target="_blank">Скачать</a></p>
+                    <p>резюме: <a href="{{ app.resume.url }}" target="_blank">Скачать</a></p>
+                    <p>сопроводительное письмо: {{ app.cover_letter }}</p>
                 </li>
             {% endfor %}
         {% endif %}

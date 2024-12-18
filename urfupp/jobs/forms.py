@@ -43,4 +43,4 @@ class UserProfileForm(forms.ModelForm):
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['resume'] 
+        fields = ['cover_letter', 'resume'] 
