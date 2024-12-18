@@ -9,14 +9,15 @@
         <button type="submit">Искать</button>
     </form>
 
-    {% if results is not None %}
+    {% if jobs is not None %}
         <h2>Результаты:</h2>
-        {% if results %}
-            <ul>
-                {% for job in results %}
-                    <a href="{% url 'job-detail' job.id %}"><li>{{ job.title }}</li></a>
-                {% endfor %}
-            </ul>
+        {% if jobs %}
+            {% for job in jobs %}
+                <li>
+                    <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
+                    ({{ job.get_type_of_job_display }})
+                </li>
+            {% endfor %}
         {% else %}
             <p>Ничего не найдено.</p>
         {% endif %}

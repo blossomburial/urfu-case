@@ -1,11 +1,11 @@
-from .models import Jobs
+from .models import Jobs, Category
 from django import forms
-from django.forms import ModelForm, TextInput, Form
+from django.forms import ModelForm, TextInput
 
 class JobsForm(ModelForm):
     class Meta:
         model = Jobs
-        fields = ['title', 'desc', 'type_of_job', 'busyness']
+        fields = ['title', 'desc', 'type_of_job']
 
         widgets = {
             "title": TextInput(attrs={
@@ -20,11 +20,12 @@ class JobsForm(ModelForm):
                 'class': '',
                 'placeholder': 'тип вакансии' 
             }),
-            "busyness": TextInput(attrs={
-                'class': '',
-                'placeholder': 'занятость' 
-            }),
         }
 
-class SearchForm(Form):
-    query = forms.CharField(max_length=100, label="Поиск", required=False)
+class JobSearchForm(forms.Form):
+    query = forms.CharField(max_length=100, required=False, label="Ключевые слова")
+    type_of_job = forms.ChoiceField(
+        choices=[('', 'Все категории')] + list(Jobs.TYPE_OF_JOB_CHOICES), 
+        required=False,
+        label="Категория"
+    )

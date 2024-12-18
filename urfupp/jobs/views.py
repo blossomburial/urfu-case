@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Jobs
 from .forms import JobsForm
 from django.views.generic import DetailView, UpdateView, DeleteView
-from .forms import SearchForm
+from .forms import JobSearchForm
 from django.contrib.auth.decorators import permission_required
 
 
@@ -46,12 +46,22 @@ def create(request):
 
     return render(request, 'jobs/create.html', data)
 
+def search_jobs(request):
+    form = JobSearchForm(request.GET or None)
+    jobs = Jobs.objects.all()
 
-def search_view(request):
-    query = request.GET.get('query', '')
-    results = Jobs.objects.filter(title__icontains=query) if query else None
-    form = SearchForm(initial={'query': query})
-    return render(request, 'jobs/search.html', {'form': form, 'results': results})
+    if form.is_valid():
+        query = form.cleaned_data.get('query')
+        type_of_job = form.cleaned_data.get('type_of_job')
+        if query:
+            jobs = jobs.filter(title__icontains=query) | jobs.filter(desc__icontains=query)
+        if type_of_job:
+            if isinstance(type_of_job, str):
+                jobs = jobs.filter(type_of_job=type_of_job)
+            else:
+                jobs = jobs.filter(type_of_job=type_of_job)
+
+    return render(request, 'jobs/search.html', {'form': form, 'jobs': jobs})
 
 def add_job(request):
     pass
