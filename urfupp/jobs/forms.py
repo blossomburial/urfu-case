@@ -1,5 +1,6 @@
 from .models import Jobs
-from django.forms import ModelForm, TextInput
+from django import forms
+from django.forms import ModelForm, TextInput, Form
 
 class JobsForm(ModelForm):
     class Meta:
@@ -24,3 +25,6 @@ class JobsForm(ModelForm):
                 'placeholder': 'занятость' 
             }),
         }
+
+class SearchForm(Form):
+    query = forms.CharField(max_length=100, label="Поиск", required=False)

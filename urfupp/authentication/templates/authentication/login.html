@@ -1,0 +1,13 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} авторизация {% endblock %}
+
+{% block main %} 
+    <h1>авторизация</h1>
+    <form method="post">
+        {% csrf_token %}
+            <input type="text" placeholder="username" name="username">
+            <input type="text" placeholder="password" name="password">
+        <button type="submit">войти</button>
+    </form>
+{% endblock %}

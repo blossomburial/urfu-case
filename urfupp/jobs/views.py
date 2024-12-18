@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Jobs
 from .forms import JobsForm
 from django.views.generic import DetailView, UpdateView, DeleteView
+from .forms import SearchForm
+from django.contrib.auth.decorators import permission_required
+
 
 def jobs_home(request):
     jobs = Jobs.objects.order_by('-date')
@@ -42,3 +45,16 @@ def create(request):
     }
 
     return render(request, 'jobs/create.html', data)
+
+
+def search_view(request):
+    query = request.GET.get('query', '')
+    results = Jobs.objects.filter(title__icontains=query) if query else None
+    form = SearchForm(initial={'query': query})
+    return render(request, 'jobs/search.html', {'form': form, 'results': results})
+
+def add_job(request):
+    pass
+
+def profile(request):
+    pass

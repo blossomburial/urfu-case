@@ -1,0 +1,24 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block main %} 
+    <h1>Поиск</h1>
+    <form method="get" action="{% url 'search' %}">
+        {{ form.as_p }}
+        <button type="submit">Искать</button>
+    </form>
+
+    {% if results is not None %}
+        <h2>Результаты:</h2>
+        {% if results %}
+            <ul>
+                {% for job in results %}
+                    <a href="{% url 'job-detail' job.id %}"><li>{{ job.title }}</li></a>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ничего не найдено.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
