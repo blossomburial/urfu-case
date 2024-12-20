@@ -1,5 +1,13 @@
 body {
-    background-color: gray;
+  background-color: lightgray;
+}
+
+nav {
+  background-color: gray;
+}
+
+main {
+    margin: 20px;
 }
 
 a:link, a:visited {

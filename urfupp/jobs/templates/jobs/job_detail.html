@@ -9,7 +9,7 @@
     <p> заработная плата: {{ job.salary }}</p>
     <p> дата создания: {{ job.date }}</p>
     {% if user.is_authenticated and not perms.jobs.add_jobs %}
-        <a href="{% url 'job-apply' job.id %}"> подать заявку </a>
+        <a href="{% url 'job-apply' job.id %}" class="btn btn-outline-dark btn-sm"> подать заявку </a>
     {% endif %}
     {% if user.is_authenticated and perms.jobs.add_jobs %}
         {% if applications %}
@@ -22,7 +22,7 @@
                 </li>
             {% endfor %}
         {% endif %}
-        <a href="{% url 'job-update' job.id %}"> редактировать вакансию </a>
-        <a href="{% url 'job-delete' job.id %}"> удалить вакансию </a>
+        <a href="{% url 'job-update' job.id %}" class="btn btn-outline-dark btn-sm"> редактировать вакансию </a>
+        <a href="{% url 'job-delete' job.id %}" class="btn btn-outline-danger btn-sm"> удалить вакансию </a>
     {% endif %}
 {% endblock %}

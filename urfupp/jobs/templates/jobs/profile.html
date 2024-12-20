@@ -19,17 +19,21 @@
             <p>Вы еще не добавили вакансий.</p>
         {% endfor %}
     {% else %}
-        <p><strong>ваши заявки:</strong></p>   
-        <li>
-            {% for app in applications %}
-                <a href="{% url 'job-detail' app.job.id %}"> {{ app.job }} </a> — <a href="{% url 'job-apply-delete' app.id %}"> удалить заявку </a> - статус: отправлена
-            {% endfor %}
-        </li> 
+        <p><strong>ваши заявки:</strong></p>
+        {% if applications %}   
+                {% for app in applications %}
+                <li>
+                  <a href="{% url 'job-detail' app.job.id %}"> {{ app.job }} </a> — <a href="{% url 'job-apply-delete' app.id %}" class="btn btn-outline-danger btn-sm"> удалить заявку </a> - статус: отправлена
+                </li> 
+                {% endfor %}
+        {% else %}
+        <p>у вас пока нет заявок</p>
+        {% endif %}
         <p><strong>статус:</strong> {{ profile.get_status_display }}</p> 
     {% endif %}
 
     <p><strong>о себе:</strong> {{ profile.bio }}</p>
     <p><strong>дата рождения:</strong> {{ profile.birth_date }}</p>
-    <a href="{% url 'edit_profile' %}"> редактировать профиль </a>
+    <a href="{% url 'edit_profile' %}" class="btn btn-outline-dark btn-sm"> редактировать профиль </a>
   </div>
 {% endblock %}
